@@ -3,9 +3,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const connectDB = () => {
-
-    // const url = "mongodb+srv://patelharsh397:0AKPfrwRqCbWqTVg@rentspot.m8zyrhs.mongodb.net/?retryWrites=true&w=majority"
-    // const url = "mongodb://localhost:27017/test"
+    
     const url= process.env.MONGODB_URL;
     mongoose.connect(url, {
         useNewUrlParser: true,
