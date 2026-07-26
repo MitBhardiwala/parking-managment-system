@@ -46,6 +46,7 @@ const Space = () => {
                 fetchSpaces({ setSpaces, setLoading })
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state])
 
     // Used to display multiple Space cards

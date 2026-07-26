@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { createReview, deleteReview, fetchReviews } from '../api/api'
 import { DeleteModal, StarRating, Loader } from '../components';
 
@@ -41,6 +41,7 @@ const Reviews = () => {
     useEffect(() => {
         // Reviews List API sets reviews state using setReviews passed as callback function
         fetchReviews({ owner_id: state?.owner_id, setReviews, setLoading })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleDelete = (review) => {

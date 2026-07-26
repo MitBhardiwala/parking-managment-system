@@ -283,7 +283,6 @@ export const updateBooking = async ({ id, body, handleUpdateBookingSuccess, hand
         const result = await axios.put(`${BASE_URL}booking/${id}`, { ...body })
         if (result?.data?.message) {
             return handleUpdateBookingSuccess(result.data?.message)
-            console.log('updateBooking >>>>  ', result?.data);
         }
     } catch (error) {
         console.error('updateBooking ', error);

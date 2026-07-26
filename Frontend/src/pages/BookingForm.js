@@ -53,6 +53,7 @@ const BookingForm = () => {
         setSpace(state?.space)
 
         handleFormChange({ key: 'space_id', value: state?.space?._id })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state])
 
     console.log('space ', space);

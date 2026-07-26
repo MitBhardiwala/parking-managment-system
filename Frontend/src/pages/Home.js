@@ -18,7 +18,7 @@ function Home() {
           <div className='row mt-4'>
             <div className='col-md-4 text-center'>
               <div className='card p-4'>
-                <img src='./map.avif' className='services-card-icon'></img>
+                <img src='./map.avif' className='services-card-icon' alt='map icon'></img>
                 <div className='mt-4'>
                   <h3>Search</h3>
                   <p className='mt-3'>Search for a parking spot according to your needs.</p>
@@ -28,7 +28,7 @@ function Home() {
 
             <div className='col-md-4 text-center'>
               <div className='card p-4'>
-                <img src='./book.png' className='services-card-icon'></img>
+                <img src='./book.png' className='services-card-icon' alt='book icon'></img>
                 <div className='mt-4'>
                   <h3>Book</h3>
                   <p className='mt-3'>Reserved Parking spot and pay desired amount..</p>
@@ -38,7 +38,7 @@ function Home() {
 
             <div className='col-md-4 text-center'>
               <div className='card p-4'>
-                <img src='./parking.png' className='services-card-icon'></img>
+                <img src='./parking.png' className='services-card-icon' alt='parking icon'></img>
                 <div className='mt-4'>
                   <h3>Park</h3>
                   <p className='mt-3'>Follow the provided instructions and park your car.</p>

@@ -1,13 +1,13 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom'
+
 import { deleteBooking, fetchBookings, updateBooking } from '../api/api'
 import { DeleteModal, Loader } from '../components';
 
 const Booking = () => {
     const user = useSelector((state) => state.user);
-    const navigate = useNavigate();
+    // navigate is no longer used
     const [bookings, setBookings] = useState()
     const [loading, setLoading] = useState(false)
 
@@ -68,6 +68,7 @@ const Booking = () => {
         else {
             fetchBookings({ user_id: user?._id, setBookings, setLoading })
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleDelete = (booking) => {

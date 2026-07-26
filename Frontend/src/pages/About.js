@@ -16,7 +16,7 @@ const About = () => {
 
                 <div className='row mt-5 mb-5'>
                     <div className='col-md-6'>
-                        <img src='./vit_parking_1.png' className='services-img'></img>
+                        <img src='./vit_parking_1.png' className='services-img' alt='vit parking'></img>
                     </div>
                     <div className='col-md-6 d-flex align-items-center'>
                         <div>
@@ -36,7 +36,7 @@ const About = () => {
                         </div>
                     </div>
                     <div className='col-md-6'>
-                        <img src='./owner.jpg' className='services-img'></img>
+                        <img src='./owner.jpg' className='services-img' alt='owner'></img>
                     </div>
                 </div>
             </div>

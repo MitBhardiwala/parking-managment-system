@@ -22,7 +22,7 @@ const Parking = () => {
     const navigate = useNavigate();
     const [parkings, setParkings] = useState();
     const [loading, setLoading] = useState(false);
-    const [activeParking, setActiveParking] = useState(null);
+    // activeParking is no longer used
     const [mapView, setMapView] = useState(false);
     
     // Default center (you can adjust these coordinates)
@@ -38,6 +38,7 @@ const Parking = () => {
         } else {
             fetchParkings({ setParkings, setLoading });
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const parkingCards = () => {

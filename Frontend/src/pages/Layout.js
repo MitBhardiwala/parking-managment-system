@@ -19,13 +19,14 @@ const Layout = () => {
         if (!user && location.pathname !== '/' && location.pathname !== '/about') {
             navigate('/login')
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user, location])
 
     return (
         <div className="main-container">
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container">
-                    <a className="navbar-brand" href="#">ParkEase</a>
+                    <Link className="navbar-brand" to="/">ParkEase</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>

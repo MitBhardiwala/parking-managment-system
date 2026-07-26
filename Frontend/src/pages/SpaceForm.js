@@ -51,6 +51,7 @@ const SpaceForm = () => {
     useEffect(() => {
         // Space List API sets parkings state using setParkings passed as callback function
         fetchParkings({ user_id: user?._id, setParkings })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // Edit space API
