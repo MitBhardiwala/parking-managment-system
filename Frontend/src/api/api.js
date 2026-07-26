@@ -1,8 +1,9 @@
 import axios from 'axios'
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-export const fetchParkings = async ({ user_id, setParkings }) => {
+export const fetchParkings = async ({ user_id, setParkings, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         let query = '';
         if (user_id) {
             query += `?user_id=${user_id}`
@@ -14,11 +15,14 @@ export const fetchParkings = async ({ user_id, setParkings }) => {
         console.log('fetchParkings ', result);
     } catch (error) {
         console.error('fetchParkings ', error);
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const login = async ({ email, password, handleLoginSuccess, handleLoginFailure }) => {
+export const login = async ({ email, password, handleLoginSuccess, handleLoginFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.post(`${BASE_URL}user/login`, { email, password })
         if (result?.data?.token) {
             return handleLoginSuccess(result.data)
@@ -27,11 +31,14 @@ export const login = async ({ email, password, handleLoginSuccess, handleLoginFa
     } catch (error) {
         console.error('login ', error);
         handleLoginFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const register = async ({ name, email, password, type, handleRegisterSuccess, handleRegisterFailure }) => {
+export const register = async ({ name, email, password, type, handleRegisterSuccess, handleRegisterFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.post(`${BASE_URL}user/register`, {
             name,
             email,
@@ -46,11 +53,14 @@ export const register = async ({ name, email, password, type, handleRegisterSucc
     } catch (error) {
         console.error('register ', error);
         handleRegisterFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const createParking = async ({ body, handleCreateParkingSuccess, handleCreateParkingFailure }) => {
+export const createParking = async ({ body, handleCreateParkingSuccess, handleCreateParkingFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.post(`${BASE_URL}parking`, { ...body })
         if (result?.data?.parking) {
             return handleCreateParkingSuccess(result.data)
@@ -59,11 +69,14 @@ export const createParking = async ({ body, handleCreateParkingSuccess, handleCr
     } catch (error) {
         console.error('createParking ', error);
         handleCreateParkingFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const updateParking = async ({ id, body, handleUpdateParkingSuccess, handleUpdateParkingFailure }) => {
+export const updateParking = async ({ id, body, handleUpdateParkingSuccess, handleUpdateParkingFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.put(`${BASE_URL}parking/${id}`, { ...body })
         if (result?.data?.message) {
             return handleUpdateParkingSuccess(result.data)
@@ -72,11 +85,14 @@ export const updateParking = async ({ id, body, handleUpdateParkingSuccess, hand
     } catch (error) {
         console.error('updateParking ', error);
         handleUpdateParkingFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const fetchSpaces = async ({ user_id, parking_id, city, date, time, availability, setSpaces }) => {
+export const fetchSpaces = async ({ user_id, parking_id, city, date, time, availability, setSpaces, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         let query = ''
         if (user_id) {
             query += `user_id=${user_id}&`
@@ -103,11 +119,14 @@ export const fetchSpaces = async ({ user_id, parking_id, city, date, time, avail
         console.log('fetchSpaces ', result);
     } catch (error) {
         console.error('fetchSpaces ', error);
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const createSpace = async ({ body, handleCreateSpaceSuccess, handleCreateSpaceFailure }) => {
+export const createSpace = async ({ body, handleCreateSpaceSuccess, handleCreateSpaceFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.post(`${BASE_URL}space`, { ...body })
         if (result?.data?.space) {
             return handleCreateSpaceSuccess(result.data)
@@ -116,11 +135,14 @@ export const createSpace = async ({ body, handleCreateSpaceSuccess, handleCreate
     } catch (error) {
         console.error('createSpace ', error);
         handleCreateSpaceFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const updateSpace = async ({ id, body, handleUpdateSpaceSuccess, handleUpdateSpaceFailure }) => {
+export const updateSpace = async ({ id, body, handleUpdateSpaceSuccess, handleUpdateSpaceFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.put(`${BASE_URL}space/${id}`, { ...body })
         if (result?.data?.message) {
             return handleUpdateSpaceSuccess(result.data)
@@ -129,11 +151,14 @@ export const updateSpace = async ({ id, body, handleUpdateSpaceSuccess, handleUp
     } catch (error) {
         console.error('updateSpace ', error);
         handleUpdateSpaceFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const fetchBookings = async ({ owner_id, user_id, setBookings }) => {
+export const fetchBookings = async ({ owner_id, user_id, setBookings, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         let query = '';
         if (user_id) {
             query += `user_id=${user_id}&`;
@@ -148,11 +173,14 @@ export const fetchBookings = async ({ owner_id, user_id, setBookings }) => {
         console.log('fetchBookings ', result);
     } catch (error) {
         console.error('fetchBookings ', error);
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const createBooking = async ({ body, handleCreateBookingSuccess, handleCreateBookingFailure }) => {
+export const createBooking = async ({ body, handleCreateBookingSuccess, handleCreateBookingFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.post(`${BASE_URL}booking`, { ...body })
         console.log('createBooking ', result?.data);
         if (result?.data?.booking) {
@@ -161,11 +189,14 @@ export const createBooking = async ({ body, handleCreateBookingSuccess, handleCr
     } catch (error) {
         console.error('createBooking ', error);
         handleCreateBookingFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const resetPassword = async ({ user_id, body, handleResetPasswordSuccess, handleResetPasswordFailure }) => {
+export const resetPassword = async ({ user_id, body, handleResetPasswordSuccess, handleResetPasswordFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         console.log('body ', body);
         const result = await axios.post(`${BASE_URL}user/resetPassword/${user_id}`, { ...body })
         console.log('resetPassword ', result?.data);
@@ -175,11 +206,14 @@ export const resetPassword = async ({ user_id, body, handleResetPasswordSuccess,
     } catch (error) {
         console.error('resetPassword ', error);
         handleResetPasswordFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const updateUser = async ({ user_id, body, handleUpdateUserSuccess, handleUpdateUserFailure }) => {
+export const updateUser = async ({ user_id, body, handleUpdateUserSuccess, handleUpdateUserFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         console.log('body ', body);
         const result = await axios.put(`${BASE_URL}user/${user_id}`, { ...body })
         console.log('updateUser ', result?.data);
@@ -189,11 +223,14 @@ export const updateUser = async ({ user_id, body, handleUpdateUserSuccess, handl
     } catch (error) {
         console.error('updateUser ', error);
         handleUpdateUserFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const deleteParking = async ({ id, handleDeleteParkingSuccess, handleDeleteParkingFailure }) => {
+export const deleteParking = async ({ id, handleDeleteParkingSuccess, handleDeleteParkingFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.delete(`${BASE_URL}parking/${id}`)
         if (result?.data?.message) {
             return handleDeleteParkingSuccess(result.message)
@@ -202,12 +239,15 @@ export const deleteParking = async ({ id, handleDeleteParkingSuccess, handleDele
     } catch (error) {
         console.error('deleteParking ', error);
         handleDeleteParkingFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
 
-export const deleteSpace = async ({ id, handleDeleteSpaceSuccess, handleDeleteSpaceFailure }) => {
+export const deleteSpace = async ({ id, handleDeleteSpaceSuccess, handleDeleteSpaceFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.delete(`${BASE_URL}space/${id}`)
         if (result?.data?.message) {
             return handleDeleteSpaceSuccess(result.message)
@@ -216,11 +256,14 @@ export const deleteSpace = async ({ id, handleDeleteSpaceSuccess, handleDeleteSp
     } catch (error) {
         console.error('deleteSpace ', error);
         handleDeleteSpaceFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const deleteBooking = async ({ id, handleDeleteBookingSuccess, handleDeleteBookingFailure }) => {
+export const deleteBooking = async ({ id, handleDeleteBookingSuccess, handleDeleteBookingFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.delete(`${BASE_URL}booking/${id}`)
         if (result?.data?.message) {
             return handleDeleteBookingSuccess(result.message)
@@ -229,11 +272,14 @@ export const deleteBooking = async ({ id, handleDeleteBookingSuccess, handleDele
     } catch (error) {
         console.error('deleteBooking ', error);
         handleDeleteBookingFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const updateBooking = async ({ id, body, handleUpdateBookingSuccess, handleUpdateBookingFailure }) => {
+export const updateBooking = async ({ id, body, handleUpdateBookingSuccess, handleUpdateBookingFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.put(`${BASE_URL}booking/${id}`, { ...body })
         if (result?.data?.message) {
             return handleUpdateBookingSuccess(result.data?.message)
@@ -242,11 +288,14 @@ export const updateBooking = async ({ id, body, handleUpdateBookingSuccess, hand
     } catch (error) {
         console.error('updateBooking ', error);
         handleUpdateBookingFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const fetchReviews = async ({ owner_id, setReviews }) => {
+export const fetchReviews = async ({ owner_id, setReviews, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         let query = '';
         if (owner_id) {
             query += `?owner_id=${owner_id}`
@@ -258,11 +307,14 @@ export const fetchReviews = async ({ owner_id, setReviews }) => {
         console.log('fetchReviews ', result);
     } catch (error) {
         console.error('fetchReviews ', error);
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const createReview = async ({ body, handleCreateReviewSuccess, handleCreateReviewFailure }) => {
+export const createReview = async ({ body, handleCreateReviewSuccess, handleCreateReviewFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.post(`${BASE_URL}review`, { ...body })
         if (result?.data) {
             return handleCreateReviewSuccess(result.data)
@@ -271,11 +323,14 @@ export const createReview = async ({ body, handleCreateReviewSuccess, handleCrea
     } catch (error) {
         console.error('createReview ', error);
         handleCreateReviewFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const deleteReview = async ({ id, handleDeleteReviewSuccess, handleDeleteReviewFailure }) => {
+export const deleteReview = async ({ id, handleDeleteReviewSuccess, handleDeleteReviewFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.delete(`${BASE_URL}review/${id}`)
         if (result?.data?.message) {
             return handleDeleteReviewSuccess(result.message)
@@ -284,11 +339,14 @@ export const deleteReview = async ({ id, handleDeleteReviewSuccess, handleDelete
     } catch (error) {
         console.error('deleteReview ', error);
         handleDeleteReviewFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const fetchUsers = async ({ setUsers }) => {
+export const fetchUsers = async ({ setUsers, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         const result = await axios.get(`${BASE_URL}user`)
         if (result?.data?.length) {
             setUsers(result?.data)
@@ -296,11 +354,14 @@ export const fetchUsers = async ({ setUsers }) => {
         console.log('fetchUsers ', result);
     } catch (error) {
         console.error('fetchUsers ', error);
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }
 
-export const deleteUser = async ({ id, handleDeleteUserSuccess, handleDeleteUserFailure }) => {
+export const deleteUser = async ({ id, handleDeleteUserSuccess, handleDeleteUserFailure, setLoading }) => {
     try {
+        if (setLoading) setLoading(true);
         console.log(`URL >> ${BASE_URL}user/delete/${id}`);
         const result = await axios.delete(`${BASE_URL}user/delete/${id}`)
         if (result?.data?.message) {
@@ -310,5 +371,7 @@ export const deleteUser = async ({ id, handleDeleteUserSuccess, handleDeleteUser
     } catch (error) {
         console.error('deleteUser ', error);
         handleDeleteUserFailure(error?.response?.data?.error)
+    } finally {
+        if (setLoading) setLoading(false);
     }
 }

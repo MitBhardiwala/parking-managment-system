@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { deleteParking, fetchParkings } from '../api/api';
-import { DeleteModal, ParkingCard } from '../components';
+import { DeleteModal, ParkingCard, Loader } from '../components';
 import { MapContainer, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import './../css/parking.scss';
@@ -21,6 +21,7 @@ const Parking = () => {
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();
     const [parkings, setParkings] = useState();
+    const [loading, setLoading] = useState(false);
     const [activeParking, setActiveParking] = useState(null);
     const [mapView, setMapView] = useState(false);
     
@@ -33,9 +34,9 @@ const Parking = () => {
 
     useEffect(() => {
         if (user?.type === 'owner') {
-            fetchParkings({ user_id: user?._id, setParkings });
+            fetchParkings({ user_id: user?._id, setParkings, setLoading });
         } else {
-            fetchParkings({ setParkings });
+            fetchParkings({ setParkings, setLoading });
         }
     }, []);
 
@@ -58,9 +59,9 @@ const Parking = () => {
 
     const handleDeleteParkingSuccess = () => {
         if (user?.type === 'owner') {
-            fetchParkings({ user_id: user?._id, setParkings });
+            fetchParkings({ user_id: user?._id, setParkings, setLoading });
         } else {
-            fetchParkings({ setParkings });
+            fetchParkings({ setParkings, setLoading });
         }
         setShowDeleteModal(false);
     };
@@ -70,7 +71,7 @@ const Parking = () => {
     };
 
     const MapSection = () => {
-        if (!parkings?.length) return null;
+        if (!parkings?.length) return <div className='col-12 text-center mt-5'><em>No parkings found to display on map</em></div>;
 
         // Calculate center based on first parking location or use default
         const mapCenter = parkings[0]?.lat && parkings[0]?.long 
@@ -146,11 +147,11 @@ const Parking = () => {
                 </button>
             </div>
 
-            {mapView ? (
+            {loading ? <Loader /> : mapView ? (
                 <MapSection />
             ) : (
                 <div className='row mt-2 g-5'>
-                    {parkingCards()}
+                    {parkings?.length > 0 ? parkingCards() : <div className='col-12 text-center'><em>No parkings found</em></div>}
                 </div>
             )}
             

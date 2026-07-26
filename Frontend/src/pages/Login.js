@@ -13,10 +13,11 @@ const Login = () => {
     const [password, setPassword] = useState('')
 
     const [error, setError] = useState()
+    const [loading, setLoading] = useState(false)
 
     // Login API call with callback functions for handling response
     const handleLogin = () => {
-        login({ email, password, handleLoginSuccess, handleLoginFailure })
+        login({ email, password, handleLoginSuccess, handleLoginFailure, setLoading })
     }
 
     const handleLoginSuccess = (data) => {
@@ -46,7 +47,9 @@ const Login = () => {
                 <div className='d-flex justify-content-between'>
                     Are you a new user?<Link to='/register'>Create account</Link>
                 </div>
-                <button type="submit" className="btn btn-outline-primary mt-3" onClick={() => handleLogin()}>Submit</button>
+                <button type="submit" className="btn btn-outline-primary mt-3" onClick={() => handleLogin()} disabled={loading}>
+                    {loading ? 'Submitting...' : 'Submit'}
+                </button>
             </div>
         </div>
     )

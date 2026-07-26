@@ -20,6 +20,7 @@ const SpaceForm = () => {
 
     const [successMessage, setSuccessMessage] = useState()
     const [error, setError] = useState()
+    const [loading, setLoading] = useState(false)
 
     const time = ['12:00am', '2:00am', '4:00am', '6:00am', '8:00am', '10:00am',
         '12:00pm', '2:00pm', '4:00pm', '6:00pm', '8:00pm', '10:00pm']
@@ -34,7 +35,7 @@ const SpaceForm = () => {
         setError()
 
         const body = { ...form, user_id: user?._id }
-        createSpace({ body, handleCreateSpaceSuccess, handleCreateSpaceFailure })
+        createSpace({ body, handleCreateSpaceSuccess, handleCreateSpaceFailure, setLoading })
     }
 
     const handleCreateSpaceSuccess = (data) => {
@@ -58,7 +59,7 @@ const SpaceForm = () => {
         setError()
 
         const body = { ...form }
-        updateSpace({ id: state?.space?._id, body, handleUpdateSpaceSuccess, handleUpdateSpaceFailure })
+        updateSpace({ id: state?.space?._id, body, handleUpdateSpaceSuccess, handleUpdateSpaceFailure, setLoading })
     }
 
     const handleUpdateSpaceSuccess = (data) => {
@@ -139,7 +140,9 @@ const SpaceForm = () => {
                         ))}
                     </select>
                 </div>
-                <button type="submit" className="btn btn-primary mt-4" onClick={handleSubmit}>Submit</button>
+                <button type="submit" className="btn btn-primary mt-4" onClick={handleSubmit} disabled={loading}>
+                    {loading ? 'Submitting...' : 'Submit'}
+                </button>
             </div>
         </div>
     )

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { deleteSpace, fetchSpaces } from '../api/api'
-import { DeleteModal, SpaceCard } from '../components'
+import { DeleteModal, SpaceCard, Loader } from '../components'
 
 import './../css/parking.scss'
 
@@ -11,6 +11,7 @@ const Space = () => {
     const navigate = useNavigate();
     const { state } = useLocation();
     const [spaces, setSpaces] = useState()
+    const [loading, setLoading] = useState(false)
     const time = ['12:00am', '2:00am', '4:00am', '6:00am', '8:00am', '10:00am',
         '12:00pm', '2:00pm', '4:00pm', '6:00pm', '8:00pm', '10:00pm']
 
@@ -31,18 +32,18 @@ const Space = () => {
         // Space List API sets spaces state using setSpaces passed as callback function
         if (user?.type === 'owner') {
             if (state?.parking?._id) {
-                fetchSpaces({ user_id: user?._id, parking_id: state?.parking?._id, setSpaces })
+                fetchSpaces({ user_id: user?._id, parking_id: state?.parking?._id, setSpaces, setLoading })
             }
             else {
-                fetchSpaces({ user_id: user?._id, setSpaces })
+                fetchSpaces({ user_id: user?._id, setSpaces, setLoading })
             }
         }
         else {
             if (state?.parking?._id) {
-                fetchSpaces({ parking_id: state?.parking?._id, setSpaces })
+                fetchSpaces({ parking_id: state?.parking?._id, setSpaces, setLoading })
             }
             else {
-                fetchSpaces({ setSpaces })
+                fetchSpaces({ setSpaces, setLoading })
             }
         }
     }, [state])
@@ -68,18 +69,18 @@ const Space = () => {
         setSpaces([])
         if (user?.type === 'owner') {
             if (state?.parking?._id) {
-                fetchSpaces({ user_id: user?._id, parking_id: state?.parking?._id, setSpaces, ...searchForm })
+                fetchSpaces({ user_id: user?._id, parking_id: state?.parking?._id, setSpaces, setLoading, ...searchForm })
             }
             else {
-                fetchSpaces({ user_id: user?._id, setSpaces, ...searchForm })
+                fetchSpaces({ user_id: user?._id, setSpaces, setLoading, ...searchForm })
             }
         }
         else {
             if (state?.parking?._id) {
-                fetchSpaces({ parking_id: state?.parking?._id, setSpaces, ...searchForm })
+                fetchSpaces({ parking_id: state?.parking?._id, setSpaces, setLoading, ...searchForm })
             }
             else {
-                fetchSpaces({ setSpaces, ...searchForm })
+                fetchSpaces({ setSpaces, setLoading, ...searchForm })
             }
         }
     }
@@ -92,18 +93,18 @@ const Space = () => {
     const handleDeleteSpaceSuccess = () => {
         if (user?.type === 'owner') {
             if (state?.parking?._id) {
-                fetchSpaces({ user_id: user?._id, parking_id: state?.parking?._id, setSpaces })
+                fetchSpaces({ user_id: user?._id, parking_id: state?.parking?._id, setSpaces, setLoading })
             }
             else {
-                fetchSpaces({ user_id: user?._id, setSpaces })
+                fetchSpaces({ user_id: user?._id, setSpaces, setLoading })
             }
         }
         else {
             if (state?.parking?._id) {
-                fetchSpaces({ parking_id: state?.parking?._id, setSpaces })
+                fetchSpaces({ parking_id: state?.parking?._id, setSpaces, setLoading })
             }
             else {
-                fetchSpaces({ setSpaces })
+                fetchSpaces({ setSpaces, setLoading })
             }
         }
         setShowDeleteModal(false)
@@ -154,9 +155,11 @@ const Space = () => {
             <h4 className='mt-5'>Showing {spaces?.length || '0'} results</h4>
 
 
-            <div className='row mt-2 g-5'>
-                {spaceCards()}
-            </div>
+            {loading ? <Loader /> : (
+                <div className='row mt-2 g-5'>
+                    {spaces?.length > 0 ? spaceCards() : <div className='col-12 text-center'><em>No spaces found</em></div>}
+                </div>
+            )}
 
             <DeleteModal value={selectedSpace?.name} showModal={showDeleteModal} setShowModal={setShowDeleteModal} onDeleteConfirm={handleDeleteSpace} />
         </div>

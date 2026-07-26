@@ -11,11 +11,12 @@ const Register = () => {
 
     const [isRegistered, setIsRegistered] = useState(false)
     const [error, setError] = useState()
+    const [loading, setLoading] = useState(false)
 
     const handleRegister = () => {
         setIsRegistered(false)
         setError()
-        register({ name, email, password, type, handleRegisterSuccess, handleRegisterFailure })
+        register({ name, email, password, type, handleRegisterSuccess, handleRegisterFailure, setLoading })
     }
 
     const handleRegisterSuccess = () => {
@@ -60,7 +61,9 @@ const Register = () => {
                 <div className='d-flex justify-content-between'>
                     Are you a existing user?<Link to='/login'>Sign in</Link>
                 </div>
-                <button type="submit" className="btn btn-outline-primary mt-3" onClick={() => handleRegister()}>Submit</button>
+                <button type="submit" className="btn btn-outline-primary mt-3" onClick={() => handleRegister()} disabled={loading}>
+                    {loading ? 'Submitting...' : 'Submit'}
+                </button>
             </div>
         </div>
     )

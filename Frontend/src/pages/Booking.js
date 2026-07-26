@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import { deleteBooking, fetchBookings, updateBooking } from '../api/api'
-import { DeleteModal } from '../components';
+import { DeleteModal, Loader } from '../components';
 
 const Booking = () => {
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();
     const [bookings, setBookings] = useState()
+    const [loading, setLoading] = useState(false)
 
     // Delete management states
     const [selectedBooking, setSelectedBooking] = useState()
@@ -62,10 +63,10 @@ const Booking = () => {
     useEffect(() => {
         // Booking List API sets bookings state using setBookings passed as callback function
         if (user?.type === 'owner') {
-            fetchBookings({ owner_id: user?._id, setBookings })
+            fetchBookings({ owner_id: user?._id, setBookings, setLoading })
         }
         else {
-            fetchBookings({ user_id: user?._id, setBookings })
+            fetchBookings({ user_id: user?._id, setBookings, setLoading })
         }
     }, [])
 
@@ -84,10 +85,10 @@ const Booking = () => {
 
     const handleUpdateBookingSuccess = (result) => {
         if (user?.type === 'owner') {
-            fetchBookings({ owner_id: user?._id, setBookings })
+            fetchBookings({ owner_id: user?._id, setBookings, setLoading })
         }
         else {
-            fetchBookings({ user_id: user?._id, setBookings })
+            fetchBookings({ user_id: user?._id, setBookings, setLoading })
         }
     }
 
@@ -101,7 +102,7 @@ const Booking = () => {
     }
 
     const handleDeleteBookingSuccess = () => {
-        fetchBookings({ user_id: user?._id, setBookings })
+        fetchBookings({ user_id: user?._id, setBookings, setLoading })
         setShowDeleteModal(false)
     }
 
@@ -133,7 +134,11 @@ const Booking = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {bookings?.length > 0 ?
+                        {loading ? 
+                            <tr>
+                                <td colSpan={12}><Loader /></td>
+                            </tr>
+                        : bookings?.length > 0 ?
                             bookingsRow()
                             :
                             <tr className='col-md-4 text-center'>

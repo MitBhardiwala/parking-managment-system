@@ -19,6 +19,7 @@ const ParkingForm = () => {
 
     const [successMessage, setSuccessMessage] = useState()
     const [error, setError] = useState()
+    const [loading, setLoading] = useState(false)
 
     // Handles form values upon change
     const handleFormChange = ({ key, value }) => {
@@ -31,7 +32,7 @@ const ParkingForm = () => {
         setError()
 
         const body = { ...form, user_id: user?._id }
-        createParking({ body, handleCreateParkingSuccess, handleCreateParkingFailure })
+        createParking({ body, handleCreateParkingSuccess, handleCreateParkingFailure, setLoading })
     }
 
     const handleCreateParkingSuccess = (data) => {
@@ -48,7 +49,7 @@ const ParkingForm = () => {
         setError()
 
         const body = { ...form }
-        updateParking({ id: state?.parking?._id, body, handleUpdateParkingSuccess, handleUpdateParkingFailure })
+        updateParking({ id: state?.parking?._id, body, handleUpdateParkingSuccess, handleUpdateParkingFailure, setLoading })
     }
 
     const handleUpdateParkingSuccess = (data) => {
@@ -108,7 +109,9 @@ const ParkingForm = () => {
                     <label htmlFor="long" className="form-label">Long</label>
                     <input type="number" className="form-control" id="long" value={form?.long} onChange={(e) => handleFormChange({ key: 'long', value: e.target.value })} />
                 </div>
-                <button type="submit" className="btn btn-primary mt-4" onClick={handleSubmit}>Submit</button>
+                <button type="submit" className="btn btn-primary mt-4" onClick={handleSubmit} disabled={loading}>
+                    {loading ? 'Submitting...' : 'Submit'}
+                </button>
             </div>
         </div>
     )

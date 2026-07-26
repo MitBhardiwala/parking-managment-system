@@ -40,7 +40,6 @@ spaceRouter.get("/", async (req, res) => {
     try {
         const { user_id, parking_id, date, city, time, availability } = req.query;
 
-        console.log('req.query ', req.query);
 
         let query = {};
 
@@ -80,21 +79,17 @@ spaceRouter.get("/", async (req, res) => {
 
         console.log('query >>> ', query);
 
-        let spaces;
+        let spaces = await Space.find(query).populate('parking_id');
 
-        // if (city) {
-        //     // Filter spaces by city (case-insensitive substring match)
-        //     spaces = await Space.find({ ...query, 'parking_id.city': { $regex: new RegExp(city, 'i') } }).populate('parking_id');
-        // } else {
-        // Fetch parking spaces without city filter
-        spaces = await Space.find(query).populate('parking_id');
-        // }
+        if (city) {
+            const cityRegex = new RegExp(city, 'i');
+            spaces = spaces.filter(space => space.parking_id && cityRegex.test(space.parking_id.city));
+        }
 
         // Filter spaces by availability if the 'availability' filter is provided
         console.log('availability', availability);
 
-        if (availability) {
-            // spaces = spaces.filter(space => !bookedSpaceIds.includes(space._id.toString()));
+        if (availability === 'true') {
             spaces = spaces.filter(space => !bookedSpaces.has(space._id.toString()));
         }
 

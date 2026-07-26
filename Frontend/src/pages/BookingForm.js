@@ -21,6 +21,7 @@ const BookingForm = () => {
 
     const [isCreated, setIsCreated] = useState(false)
     const [error, setError] = useState()
+    const [loading, setLoading] = useState(false)
 
     // Handles form values upon change
     const handleFormChange = ({ key, value }) => {
@@ -32,7 +33,7 @@ const BookingForm = () => {
         setError()
 
         const body = { ...form, user_id: user?._id }
-        createBooking({ body, handleCreateBookingSuccess, handleCreateBookingFailure })
+        createBooking({ body, handleCreateBookingSuccess, handleCreateBookingFailure, setLoading })
     }
 
     const handleCreateBookingSuccess = (data) => {
@@ -61,7 +62,7 @@ const BookingForm = () => {
             <div className='card create-parking-card p-5'>
                 <h3 className='mb-4'>Make booking</h3>
                 {isCreated && <div className="alert alert-success" role="alert">
-                    Booked successfully!
+                    Booking request has been sent
                 </div>}
                 {error && <div className="alert alert-danger" role="alert">
                     {error}
@@ -100,7 +101,9 @@ const BookingForm = () => {
                     <p><strong>Address: </strong>{space?.parking_id?.address}</p>
                     <p><strong>City: </strong>{space?.parking_id?.city}</p>
                 </div>
-                <button type="submit" className="btn btn-primary mt-4" onClick={handleCreateBooking}>Submit</button>
+                <button type="submit" className="btn btn-primary mt-4" onClick={handleCreateBooking} disabled={loading}>
+                    {loading ? 'Submitting...' : 'Submit'}
+                </button>
             </div>
         </div>
     )

@@ -16,7 +16,7 @@ const reviewRouter = require("./controllers/review");
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.use(cors())
 
@@ -25,7 +25,7 @@ connectDB();
 
 
 app.get('/', isLoggedIn, async (req, res) => {
-    res.json({ message: 'Hello world!'})
+    res.json({ message: 'Hello world!' })
 })
 
 app.use("/user", userRouter)

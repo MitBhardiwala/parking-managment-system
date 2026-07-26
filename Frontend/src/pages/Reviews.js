@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { createReview, deleteReview, fetchReviews } from '../api/api'
-import { DeleteModal, StarRating } from '../components';
+import { DeleteModal, StarRating, Loader } from '../components';
 
 const Reviews = () => {
     const user = useSelector((state) => state.user);
     const { state } = useLocation()
     const [reviews, setReviews] = useState()
+    const [loading, setLoading] = useState(false)
 
     // Delete management states
     const [selectedReview, setSelectedReview] = useState()
@@ -39,7 +40,7 @@ const Reviews = () => {
 
     useEffect(() => {
         // Reviews List API sets reviews state using setReviews passed as callback function
-        fetchReviews({ owner_id: state?.owner_id, setReviews })
+        fetchReviews({ owner_id: state?.owner_id, setReviews, setLoading })
     }, [])
 
     const handleDelete = (review) => {
@@ -53,7 +54,7 @@ const Reviews = () => {
     }
 
     const handleDeleteReviewSuccess = () => {
-        fetchReviews({ owner_id: state?.owner_id, setReviews })
+        fetchReviews({ owner_id: state?.owner_id, setReviews, setLoading })
         setShowDeleteModal(false)
     }
 
@@ -83,7 +84,7 @@ const Reviews = () => {
     }
 
     const handleCreateReviewSuccess = (data) => {
-        fetchReviews({ owner_id: state?.owner_id, setReviews })
+        fetchReviews({ owner_id: state?.owner_id, setReviews, setLoading })
         setSuccessMessage('Added successfully!')
         setForm({
             message: '',
@@ -102,7 +103,7 @@ const Reviews = () => {
             <h1 className='mt-5'>My Reviews</h1>
 
             <div className='row mt-2 g-5'>
-                {reviews?.length > 0 ?
+                {loading ? <Loader /> : reviews?.length > 0 ?
                     reviewsRow()
                     :
                     <em>No reviews found</em>}

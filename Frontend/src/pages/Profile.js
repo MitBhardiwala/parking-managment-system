@@ -21,6 +21,7 @@ const Profile = () => {
 
     const [isUpdated, setIsUpdated] = useState(false)
     const [error, setError] = useState()
+    const [loading, setLoading] = useState(false)
 
     // Handles form values upon change
     const handleFormChange = ({ key, value }) => {
@@ -32,7 +33,7 @@ const Profile = () => {
         setError()
 
         const body = { cash: form.cash, interac: form.interac }
-        updateUser({ user_id: user?._id, body, handleUpdateUserSuccess, handleUpdateUserFailure })
+        updateUser({ user_id: user?._id, body, handleUpdateUserSuccess, handleUpdateUserFailure, setLoading })
     }
 
     const handleUpdateUserSuccess = (data) => {
@@ -54,7 +55,7 @@ const Profile = () => {
         }
         else {
             const body = { password: form.password, cash: form.cash, interac: form.interac }
-            resetPassword({ user_id: user?._id, body, handleResetPasswordSuccess, handleResetPasswordFailure })
+            resetPassword({ user_id: user?._id, body, handleResetPasswordSuccess, handleResetPasswordFailure, setLoading })
         }
     }
 
@@ -114,7 +115,9 @@ const Profile = () => {
                         </div>
                     </>}
 
-                <button type="submit" className="btn btn-primary mt-4 mb-4" onClick={handleUpdateUserPassword}>Update</button>
+                <button type="submit" className="btn btn-primary mt-4 mb-4" onClick={handleUpdateUserPassword} disabled={loading}>
+                    {loading ? 'Updating...' : 'Update'}
+                </button>
 
                 <h3 className='mt-3'>Change password</h3>
                 <div className="mb-3">
@@ -125,7 +128,9 @@ const Profile = () => {
                     <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
                     <input type="confirmPassword" className="form-control" id="confirmPassword" value={form?.confirmPassword} onChange={(e) => handleFormChange({ key: 'confirmPassword', value: e.target.value })} />
                 </div>
-                <button type="submit" className="btn btn-primary mt-4" onClick={handleResetPassword}>Change Password</button>
+                <button type="submit" className="btn btn-primary mt-4" onClick={handleResetPassword} disabled={loading}>
+                    {loading ? 'Changing Password...' : 'Change Password'}
+                </button>
             </div>
         </div>
     )

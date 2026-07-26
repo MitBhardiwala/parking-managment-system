@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { deleteUser, fetchUsers } from '../api/api'
-import { DeleteModal } from '../components';
+import { DeleteModal, Loader } from '../components';
 
 const Users = () => {
     const [users, setUsers] = useState()
+    const [loading, setLoading] = useState(false)
 
     // Delete management states
     const [selectedUser, setSelectedUser] = useState()
@@ -30,7 +31,7 @@ const Users = () => {
 
     useEffect(() => {
         // Users List API sets users state using setUsers passed as callback function
-        fetchUsers({ setUsers })
+        fetchUsers({ setUsers, setLoading })
     }, [])
 
     const handleDelete = (user) => {
@@ -44,7 +45,7 @@ const Users = () => {
     }
 
     const handleDeleteUserSuccess = () => {
-        fetchUsers({ setUsers })
+        fetchUsers({ setUsers, setLoading })
         setShowDeleteModal(false)
     }
 
@@ -69,7 +70,11 @@ const Users = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users?.length > 0 ?
+                        {loading ? 
+                            <tr>
+                                <td colSpan={5}><Loader /></td>
+                            </tr>
+                        : users?.length > 0 ?
                             usersRow()
                             :
                             <tr className='col-md-4 text-center'>
